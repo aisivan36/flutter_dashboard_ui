@@ -33,6 +33,7 @@ class FileInfoCard extends StatelessWidget {
                 ),
                 child: SvgPicture.asset(
                   info.svgSrc!,
+                  color: info.color,
                 ),
               ),
               const Icon(
@@ -40,9 +41,73 @@ class FileInfoCard extends StatelessWidget {
                 color: Colors.white54,
               ),
             ],
-          )
+          ),
+          Text(
+            info.title!,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          ProgressLine(
+            percentage: info.percentage,
+            color: info.color,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                info.numOfFiles!.toString(),
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: Colors.white54,
+                ),
+              ),
+              Text(
+                info.totalStorage!,
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: Colors.white54,
+                ),
+              ),
+            ],
+          ),
         ],
       ),
+    );
+  }
+}
+
+class ProgressLine extends StatelessWidget {
+  const ProgressLine({
+    Key? key,
+    this.color,
+    this.percentage,
+  }) : super(key: key);
+  final Color? color;
+  final int? percentage;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(
+          width: double.infinity,
+          height: 5,
+          decoration: BoxDecoration(
+            color: color?.withOpacity(0.1),
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+          ),
+        ),
+        LayoutBuilder(builder: (context, constraints) {
+          return Container(
+            width: constraints.maxWidth * (percentage! / 250),
+            height: 5,
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+            ),
+          );
+        }),
+      ],
     );
   }
 }
