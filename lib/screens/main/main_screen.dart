@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:web_dashboard/bloc_drawer/menu_drawer_bloc.dart';
+import 'package:web_dashboard/responsiveness.dart';
 import 'package:web_dashboard/screens/dashboard/dashboard_screen.dart';
 import 'package:web_dashboard/screens/main/components/side_menu.dart';
 
@@ -20,8 +21,12 @@ class MainScreen extends StatelessWidget {
               body: SafeArea(
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Expanded(
+                  children: [
+                    if (Responsiveness.isDesktop(context))
+                      const Expanded(
+                        child: SideMenu(),
+                      ),
+                    const Expanded(
                       flex: 5,
                       child: DashBoardScreen(),
                     ),
